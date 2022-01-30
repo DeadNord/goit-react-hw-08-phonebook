@@ -5,11 +5,11 @@
 }
 
 .container {
-  width: 350px;
+  width: 600px;
   border-radius: 10px;
   overflow: hidden;
   background-color: #afafaf;
-  padding: 20px;
+  padding: 10px;
 
   margin-left: auto;
   margin-right: auto;

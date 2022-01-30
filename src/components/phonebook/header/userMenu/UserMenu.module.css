@@ -1,0 +1,33 @@
+.container {
+  padding: 10px 10px;
+  display: flex;
+}
+
+/* .icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.online {
+  composes: icon;
+  background-color: green;
+}
+
+.offline {
+  composes: icon;
+  background-color: red;
+} */
+
+.button {
+  width: 60px;
+  border-radius: 10px;
+
+  border-color: transparent;
+}
+
+.user {
+  margin-right: 10px;
+  display: flex;
+  justify-content: space-between;
+}

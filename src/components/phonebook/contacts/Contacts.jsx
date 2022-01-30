@@ -37,7 +37,7 @@ export default function Contacts() {
             <Contact
               key={item.id}
               name={item.name}
-              number={item.phone}
+              number={item.number}
               id={item.id}
               deleteContact={id => dispatch(deleteContact(id))}
             />

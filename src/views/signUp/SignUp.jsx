@@ -1,20 +1,20 @@
 import { useState } from 'react';
-import s from './Form.module.css';
+import s from './SignUp.module.css';
 import { alert } from '@pnotify/core';
 import '@pnotify/core/dist/PNotify.css';
 import '@pnotify/core/dist/BrightTheme.css';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { addContact } from '../../../redux/contacts/contacts-operations';
-import { getItems } from '../../../redux/contacts/contacts-selectors';
+import { SignUp } from '../../redux/auth/auth-operations';
+// import { getItems } from '../../redux/contacts/contacts-selectors';
 
-export default function Form() {
+export default function SignnUp() {
   const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  const contacts = useSelector(getItems);
+  // const contacts = useSelector(getItems);
   const dispatch = useDispatch();
-  const onSubmit = data => dispatch(addContact(data));
 
   const handleChange = e => {
     const { name, value } = e.currentTarget;
@@ -22,8 +22,11 @@ export default function Form() {
       case 'name':
         setName(value);
         break;
-      case 'number':
-        setNumber(value);
+      case 'email':
+        setEmail(value);
+        break;
+      case 'password':
+        setPassword(value);
         break;
       default:
         return;
@@ -33,7 +36,7 @@ export default function Form() {
   const handleSubmit = e => {
     // const existContacts = contacts.find(elem => elem.name.includes(name));
     e.preventDefault();
-    onSubmit({ name, number });
+    dispatch(SignUp({ name, email, password }));
     reset();
 
     // if (existContacts) {
@@ -42,14 +45,15 @@ export default function Form() {
     //     text: `${existContacts.name} is already in contacts`,
     //   });
     // } else {
-    //   onSubmit({ name, number });
+    //   onSubmit({ name, phone });
     //   reset();
     // }
   };
 
   const reset = () => {
     setName('');
-    setNumber('');
+    setEmail('');
+    setPassword('');
   };
 
   return (
@@ -68,20 +72,33 @@ export default function Form() {
         />
       </label>
       <label className={s.label}>
-        <p className={s.name}>Number</p>
+        <p className={s.name}>Email</p>
         <input
-          type="tel"
-          name="number"
-          pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-          title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+          type="email"
+          name="email"
+          // pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
+          // title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required
-          value={number}
+          value={email}
+          onChange={handleChange}
+          className={s.input}
+        />
+      </label>
+      <label className={s.label}>
+        <p className={s.name}>Password</p>
+        <input
+          type="password"
+          name="password"
+          // pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+          // title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+          required
+          value={password}
           onChange={handleChange}
           className={s.input}
         />
       </label>
       <button className={s.button} type="submit">
-        Add contact
+        SignUp
       </button>
     </form>
   );
