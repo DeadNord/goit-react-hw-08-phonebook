@@ -6,13 +6,13 @@ import '@pnotify/core/dist/BrightTheme.css';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { addContact } from '../../../redux/contacts/contacts-operations';
-import { getItems } from '../../../redux/contacts/contacts-selectors';
+// import { getItems } from '../../../redux/contacts/contacts-selectors';
 
 export default function Form() {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
-  const contacts = useSelector(getItems);
+  // const contacts = useSelector(getItems);
   const dispatch = useDispatch();
   const onSubmit = data => dispatch(addContact(data));
 

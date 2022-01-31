@@ -8,13 +8,10 @@ import { getSignIn } from '../../redux/auth/auth-selectors';
 
 export default function Header() {
   const isSignIn = useSelector(getSignIn);
-
   return (
     <div className={s.header}>
       <Navigation />
       {isSignIn ? <UserMenu /> : <AuthNav />}
-      {/* <UserMenu />
-      <AuthNav /> */}
     </div>
   );
 }

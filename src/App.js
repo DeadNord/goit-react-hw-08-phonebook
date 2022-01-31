@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
 import Loader from 'react-loader-spinner';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
@@ -9,11 +9,13 @@ import Form from './components/phonebook/form/Form';
 import Contacts from './components/phonebook/contacts/Contacts';
 import Filter from './components/phonebook/filter/Filter';
 
+import PrivateRoute from './components/phonebook/header/route/PrivateRoute';
+import PublicRoute from './components/phonebook/header/route/PublicRoute';
+
 import Header from './views/header/Header';
-// import LogIn from './views/logIn/LogIn';
-// import SignUp from './views/signUp/SignUp';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchCurrentUser } from './redux/auth/auth-operations';
+import { getIsFetchingCurrentUser } from './redux/auth/auth-selectors';
 
 const HomePage = lazy(() => import('./views/HomePage/HomePage'));
 const SignIn = lazy(() => import('./views/signIn/SignIn'));
@@ -21,55 +23,54 @@ const SignUp = lazy(() => import('./views/signUp/SignUp'));
 
 export default function App() {
   const dispatch = useDispatch();
+  const isFetchingCurrentUser = useSelector(getIsFetchingCurrentUser);
+  // console.log(isFetchingCurrentUser);
   useEffect(() => {
     dispatch(fetchCurrentUser());
   }, [dispatch]);
 
   return (
-    <>
-      <Section>
-        <Header></Header>
-      </Section>
+    !isFetchingCurrentUser && (
+      <>
+        <Section>
+          <Header></Header>
+        </Section>
 
-      <Suspense
-        fallback={
-          <Section>
-            <Loader type="Puff" color="#00BFFF" height={200} width={200} />
-          </Section>
-        }
-      >
-        <Switch>
-          {/* <Route exact path="/">
-            <Section title={'Home'}>
-              <Form />
+        <Suspense
+          fallback={
+            <Section>
+              <Loader type="Puff" color="#00BFFF" height={200} width={200} />
             </Section>
-          </Route> */}
-          <Route exact path="/">
-            <Section title={'HomePage'}>
-              <HomePage />
-            </Section>
-          </Route>
-          <Route exact path="/signIn">
-            <Section title={'SignIn'}>
-              <SignIn />
-            </Section>
-          </Route>
-          <Route exact path="/signUp">
-            <Section title={'SignUp'}>
-              <SignUp />
-            </Section>
-          </Route>
-          <Route path="/contacts">
-            <Section title={'Phonebook'}>
-              <Form />
-            </Section>
-            <Section title={'Contacts'}>
-              <Filter />
-              <Contacts />
-            </Section>
-          </Route>
-        </Switch>
-      </Suspense>
-    </>
+          }
+        >
+          <Switch>
+            <PublicRoute exact path="/">
+              <Section title={'HomePage'}>
+                <HomePage />
+              </Section>
+            </PublicRoute>
+            <PublicRoute exact path="/signIn" restricted redirectTo="/contacts">
+              <Section title={'SignIn'}>
+                <SignIn />
+              </Section>
+            </PublicRoute>
+            <PublicRoute exact path="/signUp" restricted redirectTo="/contacts">
+              <Section title={'SignUp'}>
+                <SignUp />
+              </Section>
+            </PublicRoute>
+            <PrivateRoute path="/contacts" redirectTo="/signIn">
+              <Section title={'Phonebook'}>
+                <Form />
+              </Section>
+              <Section title={'Contacts'}>
+                <Filter />
+                <Contacts />
+              </Section>
+            </PrivateRoute>
+          </Switch>
+        </Suspense>
+      </>
+    )
   );
 }
