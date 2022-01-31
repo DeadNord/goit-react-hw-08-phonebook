@@ -5,19 +5,16 @@ import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
 // importComponent
 import Section from './components/phonebook/section/Section';
-import Form from './components/phonebook/form/Form';
-import Contacts from './components/phonebook/contacts/Contacts';
-import Filter from './components/phonebook/filter/Filter';
-
+import Header from './views/header/Header';
 import PrivateRoute from './components/phonebook/header/route/PrivateRoute';
 import PublicRoute from './components/phonebook/header/route/PublicRoute';
 
-import Header from './views/header/Header';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCurrentUser } from './redux/auth/auth-operations';
 import { getIsFetchingCurrentUser } from './redux/auth/auth-selectors';
 
 const HomePage = lazy(() => import('./views/HomePage/HomePage'));
+const ContactsView = lazy(() => import('./views/contacts/ContactsView'));
 const SignIn = lazy(() => import('./views/signIn/SignIn'));
 const SignUp = lazy(() => import('./views/signUp/SignUp'));
 
@@ -60,13 +57,7 @@ export default function App() {
               </Section>
             </PublicRoute>
             <PrivateRoute path="/contacts" redirectTo="/signIn">
-              <Section title={'Phonebook'}>
-                <Form />
-              </Section>
-              <Section title={'Contacts'}>
-                <Filter />
-                <Contacts />
-              </Section>
+              <ContactsView />
             </PrivateRoute>
           </Switch>
         </Suspense>

@@ -6,13 +6,18 @@ import { SignUp, SignIn, LogOut, fetchCurrentUser } from './auth-operations';
 const userReducer = createReducer(
   { name: null, email: null },
   {
+    // [SignUp.pending]: (_, { payload }) => payload.user,
     [SignUp.fulfilled]: (_, { payload }) => payload.user,
+    // [SignUp.rejected]: (_, { payload }) => payload.user,
+    // [SignIn.pending]: (_, { payload }) => payload.user,
     [SignIn.fulfilled]: (_, { payload }) => payload.user,
+    // [SignIn.rejected]: (_, { payload }) => payload.user,
+    // [LogOut.pending]: (_, { payload }) => payload.user,
     [LogOut.fulfilled]: () => ({ name: null, email: null }),
+    // [LogOut.rejected]: (_, { payload }) => payload.user,
+    // [fetchCurrentUser.pending]: (_, { payload }) => payload.user,
     [fetchCurrentUser.fulfilled]: (_, { payload }) => payload,
-    //   [LogIn.fulfilled]: (_, { payload }) => payload,
-    //   [SignUp.rejected]: (state, { payload }) =>
-    //         state.filter(contact => contact.id !== payload),
+    // [fetchCurrentUser.rejected]: (_, { payload }) => payload.user,
   },
 );
 
@@ -20,9 +25,6 @@ const chooseToken = createReducer(null, {
   [SignUp.fulfilled]: (_, { payload }) => payload.token,
   [SignIn.fulfilled]: (_, { payload }) => payload.token,
   [LogOut.fulfilled]: () => null,
-  //   [LogIn.fulfilled]: (_, { payload }) => payload,
-  //   [SignUp.rejected]: (state, { payload }) =>
-  //         state.filter(contact => contact.id !== payload),
 });
 
 const isSignIn = createReducer(false, {
@@ -30,10 +32,6 @@ const isSignIn = createReducer(false, {
   [SignIn.fulfilled]: () => true,
   [LogOut.fulfilled]: () => false,
   [fetchCurrentUser.fulfilled]: () => true,
-  // [fetchCurrentUser.rejected]: () => false,
-  //   [LogIn.fulfilled]: (_, { payload }) => payload,
-  //   [SignUp.rejected]: (state, { payload }) =>
-  //         state.filter(contact => contact.id !== payload),
 });
 
 const isFetchingCurrentUser = createReducer(false, {
